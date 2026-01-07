@@ -23,6 +23,18 @@ func NewAuthService(userRepo repositories.UserRepository) AuthService{
 		userRepo: userRepo,
 	}
 }
+// func (s *authService) Login(ctx context.Context, email, password string) (*models.User, error){
+// 	if email == "" || password == "" {
+// 		return nil, errors.New("invalid credentials")
+// 	}
+
+// 	existing, err := s.userRepo.FindByEmail(ctx, email)
+// 	if err != nil {
+// 		return nil,err
+// 	}
+
+	
+//}
 
 func (s *authService) Register(ctx context.Context,email, password string) (*models.User, error){
 	if email == "" || password == "" {
@@ -38,7 +50,7 @@ func (s *authService) Register(ctx context.Context,email, password string) (*mod
 		return nil, errors.New("USER ALREADY EXISTS")
 	}
 
-	hash, err := security.HashPassword(password)
+	hash, err := security.Hash(password)
 	if err != nil {
 		return nil, err
 	}

@@ -8,6 +8,9 @@ import (
 	"github.com/joho/godotenv"
 	"miniauth/internal/config"
 	"miniauth/internal/db"
+	"miniauth/internal/handlers"
+	"miniauth/internal/services"
+	"miniauth/internal/repositories"
 
 )
 
@@ -32,12 +35,22 @@ func main(){
 
 	r := gin.Default()
 
+	repo := repositories.NewPostgresUserRepository(database)
+
+	authService := services.NewAuthService(repo)
+
+	authHandler := handlers.NewAuthHandler(authService)
+
+
 
 	r.GET("/health", func( c *gin.Context){
 		c.JSON(http.StatusOK, gin.H {
 			"status": "OK",
 		})
 	})
+
+	r.POST("/register", authHandler.Register)
+
 
 	r.Run(":"+ cfg.AppPort)
 }
