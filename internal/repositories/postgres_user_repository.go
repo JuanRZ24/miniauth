@@ -61,7 +61,7 @@ func (r *PostgresUserRepository) FindByEmail(ctx context.Context,email string,) 
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, nil // usuario no encontrado
+			return nil, nil 
 		}
 		return nil, err
 	}

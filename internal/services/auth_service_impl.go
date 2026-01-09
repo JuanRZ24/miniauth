@@ -23,18 +23,30 @@ func NewAuthService(userRepo repositories.UserRepository) AuthService{
 		userRepo: userRepo,
 	}
 }
-// func (s *authService) Login(ctx context.Context, email, password string) (*models.User, error){
-// 	if email == "" || password == "" {
-// 		return nil, errors.New("invalid credentials")
-// 	}
 
-// 	existing, err := s.userRepo.FindByEmail(ctx, email)
-// 	if err != nil {
-// 		return nil,err
-// 	}
+var ErrInvalidCredentials = errors.New("invalid credentials")
+func (s *authService) Login(ctx context.Context, email, password string) (*models.User, error){
+	if email == "" || password == "" {
+		return nil, ErrInvalidCredentials
+	}
 
+	existing, err := s.userRepo.FindByEmail(ctx, email)
+	if err != nil {
+		return nil,ErrInvalidCredentials
+	}
+
+	err = security.Compare(existing.PasswordHash, password); 
+	if err != nil{
+		return nil, ErrInvalidCredentials
+	}
+
+	if !existing.IsActive{
+		return nil, ErrInvalidCredentials
+	}
+
+	return existing, nil
 	
-//}
+}
 
 func (s *authService) Register(ctx context.Context,email, password string) (*models.User, error){
 	if email == "" || password == "" {

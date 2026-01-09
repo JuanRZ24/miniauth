@@ -31,31 +31,31 @@ type registerRequest struct {
 	Password string `json:"password" binding:"required,min=8"`
 }
 
-// func (h *AuthHandler) Login(c *gin.Context){
-// 	var req loginRequest
+func (h *AuthHandler) Login(c *gin.Context){
+	var req loginRequest
 
-// 	if err := c.ShouldBindJSON(&req); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{
-// 			"error": "invalid request",
-// 		})
-// 		return
-// 	}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid request",
+		})
+		return
+	}
 
-// 	ctx := c.Request.Context()
+	ctx := c.Request.Context()
 
-// 	user, err := h.authService.Login(ctx, req.Email, req.Password)
-// 	if err != nil{
-// 		c.JSON(http.StatusBadRequest, gin.H{
-// 			"error": err.Error(),
-// 		})
-// 		return
-// 	}
+	user, err := h.authService.Login(ctx, req.Email, req.Password)
+	if err != nil{
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 
-// 	c.JSON(http.StatusCreated,gin.H{
-// 		"id": user.ID,
-// 		"email": user.Email,
-// 	})
-// }
+	c.JSON(http.StatusOK,gin.H{
+		"id": user.ID,
+		"email": user.Email,
+	})
+}
 
 
 func (h *AuthHandler) Register(c *gin.Context){
