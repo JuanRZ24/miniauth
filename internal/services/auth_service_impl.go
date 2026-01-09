@@ -30,6 +30,7 @@ func (s *authService) Login(ctx context.Context, email, password string) (*model
 		return nil, ErrInvalidCredentials
 	}
 
+
 	existing, err := s.userRepo.FindByEmail(ctx, email)
 	if err != nil {
 		return nil,ErrInvalidCredentials
@@ -60,6 +61,12 @@ func (s *authService) Register(ctx context.Context,email, password string) (*mod
 
 	if existing != nil {
 		return nil, errors.New("USER ALREADY EXISTS")
+	}
+
+	err = security.Validate(password)
+
+	if err != nil{
+		return nil, err
 	}
 
 	hash, err := security.Hash(password)

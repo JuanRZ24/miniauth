@@ -1,6 +1,28 @@
 package security
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"errors" 
+	"strings"
+	"golang.org/x/crypto/bcrypt")
+
+
+func Validate(password string) error {
+	if strings.TrimSpace(password) == "" {
+		return errors.New("Password Invalid")
+	}
+
+	if len(password) < 8 {
+		return errors.New("Password too short")
+	}
+
+	if len(password) > 78{
+		return errors.New("Password too long")
+	}
+
+	return nil
+
+}
+
 
 func Hash(password string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword(
