@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"miniauth/internal/models"
+	"github.com/lib/pq"
 )
 
 type PostgresUserRepository struct {
@@ -23,7 +24,7 @@ func (r *PostgresUserRepository) Create(ctx context.Context, user *models.User) 
 		RETURNING id, created_at, updated_at
 	`
 
-	return r.db.QueryRowContext(
+	err := r.db.QueryRowContext(
 		ctx,
 		query,
 		user.Email,
@@ -35,6 +36,16 @@ func (r *PostgresUserRepository) Create(ctx context.Context, user *models.User) 
 		&user.CreatedAt,
 		&user.UpdatedAt,
 	)
+	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			if pqErr.Code == "23505" {
+				return errors.New("Duplicated email")
+			}
+		}
+		return err
+	}
+
+	return nil
 }
 
 

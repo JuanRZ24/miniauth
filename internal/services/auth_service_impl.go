@@ -54,16 +54,7 @@ func (s *authService) Register(ctx context.Context,email, password string) (*mod
 		return nil, errors.New("invalid credentials")
 	}
 
-	existing, err := s.userRepo.FindByEmail(ctx, email)
-	if err != nil {
-		return nil,err
-	}
-
-	if existing != nil {
-		return nil, errors.New("USER ALREADY EXISTS")
-	}
-
-	err = security.Validate(password)
+	err := security.Validate(password)
 
 	if err != nil{
 		return nil, err
