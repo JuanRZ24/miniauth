@@ -64,7 +64,8 @@ func (s *authService) Register(ctx context.Context,email, password string) (*mod
 	if err != nil {
 		return nil, err
 	}
-
+ 
+	
 		user := &models.User{
 		Email:        email,
 		PasswordHash: hash,
