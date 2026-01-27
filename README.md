@@ -8,7 +8,7 @@ MiniAuth fue creado como un ejercicio práctico para reforzar fundamentos de seg
 
 
 ## Features
-- Registros de usuarios
+- Registros de usuariosaa
 - Login basico con email y contraseña
 - Hash de contraseñas (bcrypt)
 - Validaciones basicas
