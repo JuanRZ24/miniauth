@@ -51,7 +51,9 @@ func main(){
 
 	r.POST("/register", authHandler.Register)
 
-	r.GET("/login", authHandler.Login)
+	r.POST("/login", authHandler.Login)
+
+	
 
 
 	r.Run(":"+ cfg.AppPort)

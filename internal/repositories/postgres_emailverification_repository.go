@@ -1,6 +1,6 @@
 package repositories
 
-
+/*
 import (
 	"context"
 	"database/sql"
@@ -16,3 +16,4 @@ type PostgresEmailVerificationRepository struct {
 func NewPostgresEmailVerificationRepository(db *sql.DB) *PostgresEmailVerificationRepository {
 	return &PostgresEmailVerificationRepository{db: db}
 }
+	*/

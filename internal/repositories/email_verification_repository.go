@@ -1,6 +1,6 @@
 
 package repositories
-
+/*
 import (
 	"context"
 	"miniauth/internal/models"
@@ -12,3 +12,4 @@ type EmailVerificationRepository interface {
 	MarkUsed(ctx context.Context, tokenID string) error
 	DeleteExpired(ctx context.Context) error
 }
+*/
