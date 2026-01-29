@@ -5,6 +5,7 @@ import(
 	"context"
 	"errors"
 
+	"github.com/google/uuid"
 
 	"miniauth/internal/models"
 	"miniauth/internal/repositories"
@@ -49,6 +50,11 @@ func (s *authService) Login(ctx context.Context, email, password string) (*model
 	
 }
 
+func (s *authService) GetByID(ctx context.Context, id uuid.UUID) (*models.User, error) {
+	return s.userRepo.FindByID(ctx, id)
+}
+
+
 func (s *authService) Register(ctx context.Context,email, password string) (*models.User, error){
 	if email == "" || password == "" {
 		return nil, errors.New("invalid credentials")
@@ -78,5 +84,8 @@ func (s *authService) Register(ctx context.Context,email, password string) (*mod
 
 	return user, nil
 }
+
+
+
 
 

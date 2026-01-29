@@ -5,6 +5,8 @@ import (
 	"database/sql"
 	"errors"
 	"miniauth/internal/models"
+	"github.com/google/uuid"
+
 	"github.com/lib/pq"
 )
 
@@ -81,7 +83,7 @@ func (r *PostgresUserRepository) FindByEmail(ctx context.Context,email string,) 
 }
 
 
-func (r *PostgresUserRepository) FindByID(ctx context.Context,id string,) (*models.User, error) {
+func (r *PostgresUserRepository) FindByID(ctx context.Context,id uuid.UUID,) (*models.User, error) {
 
 	query := `
 		SELECT id, email, password_hash, role, is_active, created_at, updated_at

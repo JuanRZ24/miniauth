@@ -3,6 +3,7 @@ package handlers
 
 import (
 	"net/http"
+	"github.com/google/uuid"
 
 	"github.com/gin-gonic/gin"
 	"miniauth/internal/services"
@@ -57,6 +58,30 @@ func (h *AuthHandler) Login(c *gin.Context){
 	})
 }
 
+func (h *AuthHandler) Me (c *gin.Context){
+	userIDAny, exists := c.Get("userID")
+	if !exists{
+		c.JSON(401,gin.H{"error": "unauthorized"})
+		return
+	}
+
+	userID := userIDAny.(uuid.UUID)
+
+	user, err := h.authService.GetByID(c.Request.Context(), userID)
+
+	if err != nil {
+		c.JSON(400, gin.H{"error": "user not found"})
+		return
+
+	}
+
+	c.JSON(200, gin.H{
+		"id": user.ID,
+		"email": user.Email,
+		"role": user.Role,
+	})
+
+}
 
 func (h *AuthHandler) Register(c *gin.Context){
 	var req registerRequest
